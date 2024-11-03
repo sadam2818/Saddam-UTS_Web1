@@ -1,0 +1,514 @@
+<html>
+<head>
+  <title>Dashboard</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f7fc;
+    }
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      background-color:#138cef;
+      position: fixed;
+      top: 0;
+      left: 0;
+      color: #fff;
+      padding-top: 20px;
+    }
+    .sidebar .logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .sidebar .logo img {
+      width: 50px;
+      border-radius: 50%;
+    }
+    .sidebar .menu {
+      list-style: none;
+      padding: 0;
+    }
+    .sidebar .menu li {
+      padding: 15px 20px;
+    }
+    .sidebar .menu li a {
+      color: #fff;
+      text-decoration: none;
+      display: block;
+    }
+    .sidebar .menu li a:hover {
+      background-color: #138cef;
+    }
+    .sidebar .menu li.active a {
+      background-color: #138cef;
+    }
+    .header {
+      height: 60px;
+      background-color: #030d17;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      position: fixed;
+      top: 0;
+      left: 250px;
+      right: 0;
+    }
+    .header .title {
+      font-size: 20px;
+    }
+    .header .user {
+      display: flex;
+      align-items: center;
+    }
+    .header .user img {
+      width: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .content {
+      margin-left: 250px;
+      padding: 80px 20px 20px 20px;
+    }
+    .card {
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .card h2 {
+      margin-top: 0;
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    .table th, .table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    .table th {
+      background-color: #f4f7fc;
+    }
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background-color: #044993;
+      color: #fff;
+    }
+    .btn-danger {
+      background-color: #dc3545;
+      color: #fff;
+    }
+    .btn-success {
+      background-color: #28a745;
+      color: #fff;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(33, 32, 32, 0.5);
+    }
+    .modal-content {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      width: 400px;
+      margin: 100px auto;
+    }
+  </style>
+  <script>
+    function showContent(contentId) {
+      var contents = document.getElementsByClassName('content-section');
+      for (var i = 0; i < contents.length; i++) {
+        contents[i].style.display = 'none';
+      }
+      document.getElementById(contentId).style.display = 'block';
+    }
+
+    function bukaModal(modalId) {
+      document.getElementById(modalId).style.display = 'block';
+    }
+
+    function tutupModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+
+    function tambahSolatium() {
+      var lokasi = document.getElementById('lokasiSolatium').value;
+      var namaLokasi = document.getElementById('namaLokasiSolatium').value;
+      alert('Solatium: ' + lokasi + ', Nama Lokasi: ' + namaLokasi + ' berhasil ditambahkan!');
+      tutupModal('modalSolatium');
+    }
+
+    function tambahKaryawan() {
+      var nama = document.getElementById('namaKaryawan').value;
+      var jabatan = document.getElementById('jabatanKaryawan').value;
+      alert('Karyawan: ' + nama + ', Jabatan: ' + jabatan + ' berhasil ditambahkan!');
+      tutupModal('modalKaryawan');
+    }
+
+    function tambahDivisi() {
+  var kode = document.getElementById('kodeDivisi').value;
+  var nama = document.getElementById('namaDivisi').value;
+  alert('Divisi: ' + kode + ', Nama Divisi: ' + nama + ' berhasil ditambahkan!');
+  tutupModal('modalDivisi');
+}
+
+
+    function tambahAbsensi() {
+      var nama = document.getElementById('namaAbsensi').value;
+      var tanggal = document.getElementById('tanggalAbsensi').value;
+      var status = document.getElementById('statusAbsensi').value;
+      alert('Absensi: ' + nama + ', Tanggal: ' + tanggal + ', Status: ' + status + ' berhasil ditambahkan!');
+      tutupModal('modalAbsensi');
+    }
+    // Function to open the modal
+function openModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'block';
+  }
+}
+
+// Function to close the modal
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'none';
+  }
+}
+
+  </script>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <img src="" width="50" height="50" />
+    </div>
+    <ul class="menu">
+      <li class="active"><a href="#" onclick="showContent('dashboard')">Dashboard</a></li>
+      <li><a href="#" onclick="showContent('karyawan')">Karyawan</a></li>
+      <li><a href="#" onclick="showContent('divisi')">Divisi</a></li>
+      <li><a href="#" onclick="showContent('absensi')">Absensi</a></li>
+      <li><a href="#" onclick="showContent('izin')">Izin</a></li>
+      <li><a href="#" onclick="showContent('pengaturan')">Pengaturan</a></li>
+    </ul>
+  </div>
+  <div class="header">
+    <div class="title">Dashboard</div>
+    <div class="user">
+      <img src="portofolio.jpg" width="40" height="40" />
+      <span>Welcome, Saddam  Alifio</span>
+    </div>
+  </div>
+  <div class="content">
+    <div class="content-section" id="dashboard">
+      <div class="card">
+        <h2>Data Solatium</h2>
+        <button class="btn btn-primary" onclick="bukaModal('modalSolatium')">+ Tambah Solatium</button>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Lokasi</th>
+              <th>Nama Lokasi</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>BOG001</td><td>Bogor Barat</td><td><i class="fas fa-edit"></i> <i class="fas fa-trash-alt"></i></td></tr>
+            <tr><td>2</td><td>BOG002</td><td>Bogor Selatan</td><td><i class="fas fa-edit"></i> <i class="fas fa-trash-alt"></i></td></tr>
+            <tr><td>3</td><td>BOG003</td><td>Bogor Timur</td><td><i class="fas fa-edit"></i> <i class="fas fa-trash-alt"></i></td></tr>
+          </tbody>
+        </table>
+        <p>Showing 1 to 3 of 3 entries</p>
+      </div>
+    </div>
+    <div class="content-section" id="karyawan" style="display:none;">
+      <div class="card">
+        <h2>Data Karyawan</h2>
+        <button class="btn btn-primary" onclick="bukaModal('modalKaryawan')">+ Tambah Karyawan</button>
+        <table class="table">
+          <thead>
+            <tr><th>No</th><th>Nama</th><th>Jabatan</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Saddam Alifio</td><td>Direktur</td><td><i class="fas fa-edit"></i> <i class="fas fa-trash-alt"></i></td></tr>
+            <tr><td>2</td><td>Sri Rahayu</td><td>Asisten Direktur</td><td><i class="fas fa-edit"></i> <i class="fas fa-trash-alt"></i></td></tr>
+            <tr><td>3</td><td>Kayla Chairunissa</td><td>Asisten Admin</td><td><i class="fas fa-edit"></i> <i class="fas fa-trash-alt"></i></td></tr>
+          </tbody>
+        </table>
+        <p>Showing 1 to 3 of 3 entries</p>
+      </div>
+    </div>
+    <div class="content-section" id="absensi" style="display:none;">
+      <div class="card">
+        <h2>Data Absensi</h2>
+        <button class="btn btn-primary" onclick="bukaModal('modalAbsensi')">+ Tambah Absensi</button>
+        <table class="table">
+          <thead>
+            <tr><th>No</th><th>Nama</th><th>Tanggal</th><th>Status</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Saddam Alifio</td><td>10/06/2024</td><td>Hadir</td><td><i class="fas fa-edit"></i> <i class="fas fa-trash-alt"></i></td></tr>
+            <tr><td>2</td><td>Sri Rahayu</td><td>10/06/2024</td><td>Hadir</td><td><i class="fas fa-edit"></i> <i class="fas fa-trash-alt"></i></td></tr>
+            <tr><td>3</td><td>Kayla Chairunissa</td><td>10/06/2024</td><td>Hadir</td><td><i class="fas fa-edit"></i> <i class="fas fa-trash-alt"></i></td></tr>
+          </tbody>
+        </table>
+        <p>Showing 1 to 3 of 3 entries</p>
+      </div>
+    </div>
+    <!-- Section for Divisi -->
+<div class="content-section" id="divisi" style="display:none;">
+  <div class="card">
+    <h2>Data Divisi</h2>
+    <button class="btn btn-primary" onclick="bukaModal('modalDivisi')">+ Tambah Divisi</button>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Kode Divisi</th>
+          <th>Nama Divisi</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>DIV001</td><td>Penjualan</td><td><i class="fas fa-edit"></i> <i class="fas fa-trash-alt"></i></td></tr>
+        <tr><td>2</td><td>DIV002</td><td>Keuangan</td><td><i class="fas fa-edit"></i> <i class="fas fa-trash-alt"></i></td></tr>
+        <tr><td>3</td><td>DIV003</td><td>Adminstrasi</td><td><i class="fas fa-edit"></i> <i class="fas fa-trash-alt"></i></td></tr>
+        <tr><td>4</td><td>DIV004</td><td>IT Support</td><td><i class="fas fa-edit"></i> <i class="fas fa-trash-alt"></i></td></tr>
+        <tr><td>5</td><td>DIV005</td><td>Pergudangan</td><td><i class="fas fa-edit"></i> <i class="fas fa-trash-alt"></i></td></tr>
+        <tr><td>6</td><td>DIV006</td><td>Office boy</td><td><i class="fas fa-edit"></i> <i class="fas fa-trash-alt"></i></td></tr>
+      </tbody>
+    </table>
+    <p>Showing 1 to 6 of 6 entries</p>
+  </div>
+</div>
+  <!--section Izin-->
+<div class="content-section" id="izin" style="display:none;">
+  <h2>Daftar Izin Karyawan</h2>
+  <button class="btn btn-primary" onclick="openModal('modalUbahStatus')">Ubah Status</button>
+  <br><br>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Nama</th>
+        <th>Izin</th>
+        <th>Tanggal</th>
+        <th>Jam</th>
+        <th>Keterangan</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Nabila Putri</td>
+        <td>Datang Terlambat</td>
+        <td>2023-06-10</td>
+        <td>11:15:00</td>
+        <td>Kesiangan</td>
+        <td>Menunggu Konfirmasi</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>oktaviani anggraini</td>
+        <td>Datang Terlambat</td>
+        <td>2023-06-09</td>
+        <td>09:15:00</td>
+        <td>Telat bangun</td>
+        <td>Menunggu Konfirmasi</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Ryandanu Pradipta</td>
+        <td>Datang Terlambat</td>
+        <td>2023-05-01</td>
+        <td>10:35:00</td>
+        <td>Macet</td>
+        <td>Menunggu Konfirmasi</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>eka purnamasari</td>
+        <td>Datang Terlambat</td>
+        <td>2023-04-19</td>
+        <td>09:54:00</td>
+        <td>Macet</td>
+        <td>Menunggu Konfirmasi</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Ryandanu Pradipta</td>
+        <td>Datang Terlambat</td>
+        <td>2023-04-12</td>
+        <td>10:19:00</td>
+        <td>Macet</td>
+        <td>Menunggu Konfirmasi</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>Firdaus Haryono</td>
+        <td>Datang Terlambat</td>
+        <td>2023-04-17</td>
+        <td>08:25:00</td>
+        <td>Perpanjang SIM</td>
+        <td>Disetujui</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+   <!-- Pengaturan Section -->
+   <div class="content-section" id="pengaturan" style="display:none;">
+    <div class="card">
+      <h2>Pengaturan</h2>
+      <div class="setting">
+        <h3>Pengaturan Umum</h3>
+        <label>Nama Perusahaan:</label>
+        <input type="text" placeholder="PT.Sadam Sejahtera " /><br><br>
+        <label>Zona Waktu:</label>
+        <select>
+          <option value="WIB">WIB (GMT+7)</option>
+          <option value="WITA">WITA (GMT+8)</option>
+          <option value="WIT">WIT (GMT+9)</option>
+        </select><br><br>
+        <label>Bahasa:</label>
+        <select>
+          <option value="id">Bahasa Indonesia</option>
+          <option value="en">English</option>
+        </select><br><br>
+      </div>
+
+      <div class="setting">
+        <h3>Pengaturan Keamanan</h3>
+        <label>Ganti Kata Sandi:</label><br>
+        <input type="password" placeholder="Kata sandi lama" /><br>
+        <input type="password" placeholder="Kata sandi baru" /><br>
+        <input type="password" placeholder="Konfirmasi kata sandi baru" /><br><br>
+        <button class="btn btn-primary">Ganti Kata Sandi</button><br><br>
+      </div>
+
+      <div class="setting">
+        <h3>Pengaturan Notifikasi</h3>
+        <label>Email Notifikasi:</label>
+        <select>
+          <option value="aktif">Aktif</option>
+          <option value="nonaktif">Nonaktif</option>
+        </select><br><br>
+        <label>Push Notifikasi:</label>
+        <select>
+          <option value="aktif">Aktif</option>
+          <option value="nonaktif">Nonaktif</option>
+        </select><br><br>
+      </div>
+
+      <div class="setting">
+        <h3>Pengaturan Tampilan</h3>
+        <label>Mode Tampilan:</label>
+        <select>
+          <option value="default">Default</option>
+          <option value="dark">Mode Gelap</option>
+          <option value="light">Mode Terang</option>
+        </select><br><br>
+        <label>Ukuran Font:</label>
+        <select>
+          <option value="small">Kecil</option>
+          <option value="medium">Sedang</option>
+          <option value="large">Besar</option>
+        </select><br><br>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- Modal Solatium -->
+  <div class="modal" id="modalSolatium">
+    <div class="modal-content">
+      <h3>Tambah Solatium</h3>
+      <label>Lokasi:</label>
+      <input type="text" id="lokasiSolatium" /><br><br>
+      <label>Nama Lokasi:</label>
+      <input type="text" id="namaLokasiSolatium" /><br><br>
+      <button class="btn btn-success" onclick="tambahSolatium()">Tambah</button>
+      <button class="btn btn-danger" onclick="tutupModal('modalSolatium')">Batal</button>
+    </div>
+  </div>
+
+  <!-- Modal Karyawan -->
+  <div class="modal" id="modalKaryawan">
+    <div class="modal-content">
+      <h3>Tambah Karyawan</h3>
+      <label>Nama:</label>
+      <input type="text" id="namaKaryawan" /><br><br>
+      <label>Jabatan:</label>
+      <input type="text" id="jabatanKaryawan" /><br><br>
+      <button class="btn btn-success" onclick="tambahKaryawan()">Tambah</button>
+      <button class="btn btn-danger" onclick="tutupModal('modalKaryawan')">Batal</button>
+    </div>
+  </div>
+
+  <!-- Modal Absensi -->
+  <div class="modal" id="modalAbsensi">
+    <div class="modal-content">
+      <h3>Tambah Absensi</h3>
+      <label>Nama:</label>
+      <input type="text" id="namaAbsensi" /><br><br>
+      <label>Tanggal:</label>
+      <input type="date" id="tanggalAbsensi" /><br><br>
+      <label>Status:</label>
+      <select id="statusAbsensi">
+        <option value="Hadir">Hadir</option>
+        <option value="Tidak Hadir">Tidak Hadir</option>
+      </select><br><br>
+      <button class="btn btn-success" onclick="tambahAbsensi()">Tambah</button>
+      <button class="btn btn-danger" onclick="tutupModal('modalAbsensi')">Batal</button>
+    </div>
+  </div>
+  <!-- Modal for Adding Divisi -->
+<div class="modal" id="modalDivisi">
+  <div class="modal-content">
+    <h3>Tambah Divisi</h3>
+    <label>Kode Divisi:</label>
+    <input type="text" id="kodeDivisi" /><br><br>
+    <label>Nama Divisi:</label>
+    <input type="text" id="namaDivisi" /><br><br>
+    <button class="btn btn-success" onclick="tambahDivisi()">Tambah</button>
+    <button class="btn btn-danger" onclick="tutupModal('modalDivisi')">Batal</button>
+  </div>
+</div>
+<!-- Modal for updating status -->
+<div class="modal" id="modalUbahStatus">
+  <div class="modal-content">
+    <h3>Ubah Status Izin</h3>
+    <label for="status">Pilih Status:</label>
+    <select id="status">
+      <option>Menunggu Konfirmasi</option>
+      <option>Disetujui</option>
+      <option>Ditolak</option>
+    </select>
+    <br><br>
+    <button class="btn btn-success" onclick="closeModal('modalUbahStatus')">Simpan</button>
+    <button class="btn btn-danger" onclick="closeModal('modalUbahStatus')">Batal</button>
+  </div>
+</div>
+</body>
+</html>
